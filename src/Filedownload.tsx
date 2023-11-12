@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
+import { ClockLoader } from "react-spinners";
 
 function Download() {
     let intervalId: NodeJS.Timeout;
@@ -28,6 +31,7 @@ function Download() {
                 console.log("Success! Stopping the interval.");
                 clearInterval(intervalId);
                 setUrl(data.signedUrl);
+                setError(undefined);
             } else {
                 setError(data.message);
             }
@@ -54,7 +58,7 @@ function Download() {
         let intervalId: NodeJS.Timeout;
 
         if (!complete){
-            intervalId = setInterval(getURL, 30 * 1000);
+            intervalId = setInterval(getURL, 10 * 1000);
         }
 
         return () => {
@@ -63,15 +67,17 @@ function Download() {
     }, []);
 
     return (
-        <div>
-            <p>Hello World</p>
-            {error && <p>{error}</p>}
-            {complete && (
-                <button onClick={handleDownload}>
-                    Download your file here
-                </button>
-            )}
-        </div>
+        <div className="p-40 text-center">
+            <div className="mx-80 p-20 flex flex-col w-auto gap-y-8 border-4 border-solid border-emerald-600 rounded-lg">
+                <h1 className="text-6xl">Download your file here!</h1>
+                {error && <div><ClockLoader color="#36d7b7" className="mx-auto my-5" size={107} /><p className="text-red-600 text-3xl"><FontAwesomeIcon icon={faCircleExclamation} /> {error}</p></div>}
+                {complete && (
+                    <button onClick={handleDownload} className="bg-orange-300 hover:bg-orange-700 mx-60 p-5 rounded-lg focus:outline-none focus:ring focus:ring-violet-300">
+                        Download your file here
+                    </button>
+                )}
+            </div>
+            </div>
     );
 }
 
