@@ -54,44 +54,51 @@ function Home() {
     console.log(res);
 
     return (
-            <div className="p-80 text-center">
-                <div className="flex flex-col w-auto gap-y-8 border-solid border-emerald-600 rounded-lg">
-                    <h1 className="text-6xl">File Resizificator</h1>
-                    <label htmlFor="file" className="text-3xl">
-                        Choose a file
-                    </label>
-                    <input id="file" type="file" onChange={handleFileChange} />
-                    {error && <p>{error}</p>}
-                    <select
-                        name="resolution"
-                        value={res}
-                        onChange={handleResChange}>
-                        <option value={undefined} disabled>
-                            Select an option
-                        </option>
-                        <option value={"144x176"}>144p</option>
-                        <option value={"240x320"}>240p</option>
-                        <option value={"360x640"}>360p</option>
-                        <option value={"480x854"}>480p</option>
-                        <option value={"720x1280"}>720p</option>
-                        <option value={"1080x1920"}>1080p</option>
-                        <option value={"1440x2560"}>1440p</option>
-                        <option value={"2160x3840"}>4K</option>
-                    </select>
-                </div>
-                {file && (
-                    <section>
-                        File details:
-                        <ul>
-                            <li>Name: {file.name}</li>
-                            <li>Type: {file.type}</li>
-                            <li>Size: {file.size} bytes</li>
-                        </ul>
-                    </section>
-                )}
+        <div className="p-40 text-center">
+            <div className="mx-80 p-20 flex flex-col w-auto gap-y-8 border-4 border-solid border-emerald-600 rounded-lg">
+                <h1 className="text-6xl">File Resizificator</h1>
+                <label htmlFor="file" className="text-3xl">
+                    Choose a file
+                </label>
+                <input
+                    id="file"
+                    type="file"
+                    onChange={handleFileChange}
+                    className="mx-auto"
+                />
+                {error && <p>{error}</p>}
+                <select
+                    name="resolution"
+                    value={res}
+                    onChange={handleResChange}
+                    className="mx-auto h-10 rounded-lg px-5 cursor-pointer mb-10">
+                    <option value={undefined} disabled selected>
+                        Select an option
+                    </option>
+                    <option value={"176x144"}>144p</option>
+                    <option value={"320x240"}>240p</option>
+                    <option value={"640360"}>360p</option>
+                    <option value={"854x480"}>480p</option>
+                    <option value={"1280x720"}>720p</option>
+                    <option value={"1920x1080"}>1080p</option>
+                    <option value={"2560x1440"}>1440p</option>
+                    <option value={"3840x2160"}>4K</option>
+                </select>
+            
+            {file && (
+                <section>
+                    <p className="text-3xl mb-5">File details:</p>
+                    <ul className="list-disc mx-40">
+                        <li>Name: {file.name}</li>
+                        <li>Type: {file.type}</li>
+                        <li>Size: {file.size} bytes</li>
+                    </ul>
+                </section>
+            )}
 
-                {file && <button onClick={handleUpload}>Upload a file</button>}
+            {file && <button onClick={handleUpload} className="bg-orange-300 mx-80 rounded-lg py-4">Upload your file</button>}
             </div>
+        </div>
     );
 }
 
