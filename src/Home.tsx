@@ -1,12 +1,9 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 
 function Home() {
     const [file, setFile] = useState<File | null>(null);
     const [res, setRes] = useState<string | undefined>();
     const [error, setError] = useState<string | undefined>(undefined);
-
-    const navigate = useNavigate();
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -32,24 +29,25 @@ function Home() {
             console.log("Uploading file...");
 
             try {
-                const result = await fetch(
-                    "http://0.0.0.0:8080/api/v1/files/upload",
-                    {
-                        method: "POST",
-                        body: formData,
-                    }
-                );
+                const result = await fetch("/api/v1/files/upload", {
+                    method: "POST",
+                    body: formData,
+                });
 
                 const data = await result.json();
 
                 console.log(data);
                 localStorage.setItem("file", data.message);
-                navigate("/download");
+                window.location.href = "/download";
             } catch (error) {
                 console.error(error);
             }
         }
     };
+
+    useEffect(() => {
+        document.title = "File Resizificator";
+    }, []);
 
     console.log(res);
 
@@ -77,26 +75,32 @@ function Home() {
                     </option>
                     <option value={"176x144"}>144p</option>
                     <option value={"320x240"}>240p</option>
-                    <option value={"640360"}>360p</option>
+                    <option value={"640x360"}>360p</option>
                     <option value={"854x480"}>480p</option>
                     <option value={"1280x720"}>720p</option>
                     <option value={"1920x1080"}>1080p</option>
                     <option value={"2560x1440"}>1440p</option>
                     <option value={"3840x2160"}>4K</option>
                 </select>
-            
-            {file && (
-                <section>
-                    <p className="text-3xl mb-5">File details:</p>
-                    <ul className="list-disc mx-40">
-                        <li>Name: {file.name}</li>
-                        <li>Type: {file.type}</li>
-                        <li>Size: {file.size} bytes</li>
-                    </ul>
-                </section>
-            )}
 
-            {file && <button onClick={handleUpload} className="bg-orange-300 mx-80 rounded-lg py-4">Upload your file</button>}
+                {file && (
+                    <section>
+                        <p className="text-3xl mb-5">File details:</p>
+                        <ul className="list-disc mx-40">
+                            <li>Name: {file.name}</li>
+                            <li>Type: {file.type}</li>
+                            <li>Size: {file.size} bytes</li>
+                        </ul>
+                    </section>
+                )}
+
+                {file && (
+                    <button
+                        onClick={handleUpload}
+                        className="bg-orange-300 mx-80 rounded-lg py-4">
+                        Upload your file
+                    </button>
+                )}
             </div>
         </div>
     );

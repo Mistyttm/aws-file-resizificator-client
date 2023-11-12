@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { ClockLoader } from "react-spinners";
@@ -7,7 +6,6 @@ import { ClockLoader } from "react-spinners";
 function Download() {
     let intervalId: NodeJS.Timeout;
 
-    const navigate = useNavigate();
 
 
     const [complete, setComplete] = useState<boolean>(false);
@@ -21,9 +19,7 @@ function Download() {
         const id = ID;
 
         try {
-            const result = await fetch(
-                "http://0.0.0.0:8080/api/v1/files/encodedVideo/" + id
-            );
+            const result = await fetch("/api/v1/files/encodedVideo/" + id);
             const data = await result.json();
 
             if (data.status === "OK") {
@@ -50,7 +46,7 @@ function Download() {
         // Programmatically click the anchor element to trigger the download
         anchor.click();
 
-        navigate("/");
+        window.location.href = "/";
     };
 
     useEffect(() => {
@@ -64,6 +60,14 @@ function Download() {
         return () => {
             clearInterval(intervalId);
         };
+    }, []);
+
+    useEffect(() => {
+        if (complete) {
+            document.title = "Download complete!";
+        } else {
+            document.title = "Downloading...";
+        }
     }, []);
 
     return (
