@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function App() {
+function Home() {
     const [file, setFile] = useState<File | null>(null);
     const [res, setRes] = useState<string | undefined>();
     const [error, setError] = useState<string | undefined>(undefined);
@@ -81,4 +81,4 @@ function App() {
     );
 }
 
-export default App;
+export default Home;
