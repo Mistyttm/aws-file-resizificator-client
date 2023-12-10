@@ -1,4 +1,5 @@
 # AWS File Resizificator Client
+[![forthebadge](https://forthebadge.com/images/badges/made-with-typescript.svg)](https://forthebadge.com) 
 
 The front end for the file resizificator application
 
